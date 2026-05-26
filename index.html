@@ -392,11 +392,11 @@
         <div class="step-num">1</div>
         <div class="step-body">
           <h3>Install the app</h3>
-          <p><strong>Mac:</strong> Open the downloaded <code>.dmg</code> file. Drag the <strong>Mica CRM</strong> icon into your Applications folder. Eject the disk image.</p>
-          <p><strong>Windows:</strong> Run the <code>.exe</code> installer and follow the prompts. A desktop shortcut will be created automatically.</p>
+          <p>Open the downloaded <code>.dmg</code> file. Drag the <strong>Mica CRM</strong> icon into your Applications folder, then eject the disk image.</p>
+          <p>No other software needed — everything is bundled inside the app.</p>
           <div class="callout warn">
             <span class="callout-icon">⚠️</span>
-            <div><strong>Mac Gatekeeper notice:</strong> On first launch, macOS may say "cannot be opened because it is from an unidentified developer." Right-click the app icon → <strong>Open</strong> → click <strong>Open</strong> again to allow it. You only need to do this once.</div>
+            <div><strong>First launch only:</strong> macOS may say "cannot be opened because it is from an unidentified developer." Right-click the app → <strong>Open</strong> → <strong>Open</strong>. You'll never see this again.</div>
           </div>
         </div>
       </div>
@@ -405,10 +405,10 @@
         <div class="step-num">2</div>
         <div class="step-body">
           <h3>Make sure Google Chrome is installed</h3>
-          <p>Mica CRM uses <strong>your existing Chrome</strong> to power the WhatsApp connection — no extra downloads needed. If you don't have Chrome, <a href="https://www.google.com/chrome" target="_blank" style="color:var(--purple);">download it here</a>.</p>
+          <p>Mica CRM uses Chrome to power the WhatsApp connection. If you don't have it, <a href="https://www.google.com/chrome" target="_blank" style="color:var(--purple);">download it here</a> (it's free).</p>
           <div class="callout tip">
             <span class="callout-icon">💡</span>
-            <div>Chrome must be at its default location (<code>/Applications/Google Chrome.app</code> on Mac). If you moved it, put it back.</div>
+            <div>Keep Chrome at its default location: <code>/Applications/Google Chrome.app</code>. If you moved it, put it back.</div>
           </div>
         </div>
       </div>
@@ -642,32 +642,25 @@
       <div class="step">
         <div class="step-num green">7</div>
         <div class="step-body">
-          <h3>Initial setup checklist (first time only)</h3>
-          <p>Before distributing the app to KAMs, complete these one-time steps:</p>
+          <h3>One-time setup before distributing (tech team only)</h3>
+          <p>This is done once by whoever manages the codebase — KAMs never need to touch this.</p>
           <ul style="margin:12px 0 0 16px;font-size:14px;color:var(--gray-500);display:flex;flex-direction:column;gap:10px;">
             <li>
               <strong>1. Create a Google OAuth Client ID</strong><br>
-              Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank" style="color:var(--purple);">console.cloud.google.com → APIs &amp; Services → Credentials</a>. Create an OAuth 2.0 Client ID for a <em>Web application</em>. Add <code>http://localhost:3001</code> as an authorized redirect URI. Copy the Client ID.
+              Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank" style="color:var(--purple);">console.cloud.google.com → APIs &amp; Services → Credentials</a>. Create an <em>OAuth 2.0 Web Client ID</em>. Add <code>http://localhost:3001</code> as an authorized redirect URI. Copy the Client ID.
             </li>
             <li>
-              <strong>2. Add the Client ID to the app config</strong><br>
-              Open a terminal in the project folder and run:
-              <pre style="background:var(--gray-100);border:1px solid var(--gray-200);border-radius:8px;padding:12px;font-size:12px;margin-top:8px;overflow-x:auto;font-family:'SF Mono','Fira Code',monospace;color:var(--gray-700);">echo 'GOOGLE_CLIENT_ID=your_client_id_here' &gt; backend/.env
-echo 'VITE_GOOGLE_CLIENT_ID=your_client_id_here' &gt; frontend/.env</pre>
-              Replace <code>your_client_id_here</code> with the real value.
+              <strong>2. Add it to the project config files</strong><br>
+              Paste the Client ID into <code>backend/.env</code> and <code>frontend/.env</code> (replace the placeholder value). Both files already exist in the project.
             </li>
             <li>
-              <strong>3. Rebuild and repackage</strong><br>
-              Run <code>npm run package:mac</code> from the project root. The new <code>.dmg</code> in the <code>release/</code> folder will have the Client ID baked in. Distribute this file to KAMs.
-            </li>
-            <li>
-              <strong>4. Tell KAMs to download &amp; scan once</strong><br>
-              Share this guide page with each KAM. Their WhatsApp session persists after the first QR scan.
+              <strong>3. Build &amp; distribute</strong><br>
+              Run <code>npm run package:mac</code>. Upload the <code>.dmg</code> from the <code>release/</code> folder to the GitHub release and share <strong>this guide page</strong> with KAMs. Done.
             </li>
           </ul>
           <div class="callout warn" style="margin-top:14px;">
             <span class="callout-icon">🔑</span>
-            <div><strong>Keep the .env files private</strong> — never commit them to git. They contain your Google Client ID which should not be shared publicly.</div>
+            <div><strong>Keep the .env files private.</strong> Never commit them to a public git repo — they contain your Google Client ID.</div>
           </div>
         </div>
       </div>
@@ -676,10 +669,9 @@ echo 'VITE_GOOGLE_CLIENT_ID=your_client_id_here' &gt; frontend/.env</pre>
         <div class="step-num green">8</div>
         <div class="step-body">
           <h3>Where is the data stored?</h3>
-          <p>Each KAM's data lives <strong>on their own machine</strong>:</p>
+          <p>Each KAM's data lives <strong>on their own Mac</strong>:</p>
           <ul style="margin:8px 0 0 16px;font-size:14px;color:var(--gray-500);display:flex;flex-direction:column;gap:5px;">
-            <li><strong>Mac:</strong> <code>~/Library/Application Support/Mica CRM/data/</code></li>
-            <li><strong>Windows:</strong> <code>%APPDATA%\Mica CRM\data\</code></li>
+            <li><code>~/Library/Application Support/Mica CRM/data/</code></li>
           </ul>
           <p style="margin-top:8px;">The SQLite database (<code>mica-crm.db</code>) and WhatsApp sessions (<code>wa_sessions/</code>) are in that folder. As admin you can read any KAM's data <em>when they have the app open</em> — your admin dashboard connects to the backend running on their machine.</p>
           <div class="callout tip">
