@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mica CRM — Setup Guide</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:      #7c3aed;
+      --purple-dark: #5b21b6;
+      --purple-light:#ede9fe;
+      --purple-xlight:#f5f3ff;
+      --green:       #059669;
+      --green-light: #d1fae5;
+      --amber:       #d97706;
+      --amber-light: #fef3c7;
+      --gray-50:     #f9fafb;
+      --gray-100:    #f3f4f6;
+      --gray-200:    #e5e7eb;
+      --gray-400:    #9ca3af;
+      --gray-500:    #6b7280;
+      --gray-700:    #374151;
+      --gray-900:    #111827;
+      --radius:      12px;
+      --shadow:      0 4px 24px rgba(0,0,0,.08);
+      --shadow-lg:   0 8px 40px rgba(0,0,0,.13);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #a78bfa 100%);
+      color: white;
+      text-align: center;
+      padding: 72px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-icon { font-size: 56px; margin-bottom: 16px; display: block; }
+    .hero h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -.5px; }
+    .hero p  { font-size: 18px; opacity: .85; margin-top: 10px; max-width: 520px; margin-inline: auto; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 99px;
+      padding: 4px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .3px;
+      margin-bottom: 18px;
+    }
+
+    /* ── TABS ── */
+    .tabs-wrap {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    .tabs {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      gap: 4px;
+      padding: 0 24px;
+    }
+    .tab-btn {
+      padding: 18px 28px;
+      border: none;
+      background: none;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--gray-500);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all .15s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-btn:hover { color: var(--purple); }
+    .tab-btn.active {
+      color: var(--purple);
+      border-bottom-color: var(--purple);
+    }
+
+    /* ── CONTENT ── */
+    .content { max-width: 860px; margin: 0 auto; padding: 48px 24px 96px; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .section-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .section-icon.purple { background: var(--purple-light); }
+    .section-icon.green  { background: var(--green-light); }
+    .section-header h2 { font-size: 26px; font-weight: 800; color: var(--gray-900); }
+    .section-header p  { font-size: 15px; color: var(--gray-500); margin-top: 2px; }
+
+    /* ── STEP CARDS ── */
+    .steps { display: flex; flex-direction: column; gap: 16px; }
+    .step {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 24px 24px 24px 20px;
+      display: flex;
+      gap: 20px;
+      box-shadow: var(--shadow);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .step:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .step-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--purple);
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-num.green { background: var(--green); }
+    .step-body h3 { font-size: 16px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
+    .step-body p  { font-size: 14px; color: var(--gray-500); }
+    .step-body p + p { margin-top: 6px; }
+
+    /* code inline */
+    code {
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 5px;
+      padding: 1px 6px;
+      font-size: 12.5px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: var(--purple-dark);
+    }
+
+    /* ── CALLOUT BOXES ── */
+    .callout {
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin: 10px 0 0;
+      font-size: 13.5px;
+    }
+    .callout-icon { font-size: 18px; flex-shrink: 0; line-height: 1.5; }
+    .callout.tip   { background: var(--purple-xlight); border: 1px solid #ddd6fe; }
+    .callout.warn  { background: var(--amber-light);   border: 1px solid #fde68a; }
+    .callout.info  { background: var(--green-light);   border: 1px solid #a7f3d0; }
+    .callout strong { color: var(--gray-900); }
+
+    /* ── DOWNLOAD BUTTON ── */
+    .download-area {
+      background: linear-gradient(135deg, #5b21b6, #7c3aed);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      color: white;
+      margin: 40px 0 48px;
+    }
+    .download-area h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+    .download-area p  { opacity: .8; font-size: 14px; margin-bottom: 20px; }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      color: var(--purple-dark);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 12px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+      transition: transform .12s, box-shadow .12s;
+    }
+    .btn-download:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 22px;
+      border-radius: 10px;
+      text-decoration: none;
+      margin-left: 12px;
+      transition: background .12s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,.25); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--gray-200);
+      margin: 44px 0;
+    }
+
+    /* ── KANBAN DIAGRAM ── */
+    .kanban-diagram {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 16px 0 8px;
+      margin: 12px 0;
+    }
+    .kstage {
+      flex: 1;
+      min-width: 110px;
+      background: var(--gray-100);
+      border-radius: 8px;
+      padding: 10px 10px 14px;
+      text-align: center;
+    }
+    .kstage-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--gray-500);
+      margin-bottom: 8px;
+    }
+    .kcard {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      padding: 7px 8px;
+      font-size: 12px;
+      color: var(--gray-700);
+      text-align: left;
+      margin-bottom: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .kcard .kdot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    /* ── FEATURE GRID ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 12px 0;
+    }
+    .feature-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .feature-card .fc-icon { font-size: 24px; margin-bottom: 10px; display: block; }
+    .feature-card h4 { font-size: 14px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+    .feature-card p  { font-size: 13px; color: var(--gray-500); }
+
+    /* ── QR VISUAL ── */
+    .qr-demo {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--gray-100);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 10px 0;
+      flex-wrap: wrap;
+    }
+    .qr-box {
+      width: 80px; height: 80px;
+      background: white;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: repeat(7,1fr);
+      grid-template-rows: repeat(7,1fr);
+      gap: 2px;
+      padding: 8px;
+      flex-shrink: 0;
+    }
+    .qr-cell { border-radius: 1px; }
+    .qr-cell.b { background: var(--gray-900); }
+    .qr-cell.w { background: white; }
+    .qr-demo p { font-size: 13px; color: var(--gray-500); flex: 1; min-width: 180px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--gray-900);
+      color: var(--gray-400);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 13px;
+    }
+    footer strong { color: white; }
+
+    @media (max-width: 540px) {
+      .step { flex-direction: column; gap: 12px; }
+      .tabs { overflow-x: auto; }
+      .tab-btn { padding: 16px 18px; font-size: 14px; white-space: nowrap; }
+      .btn-secondary { margin: 8px 0 0; }
+      .download-area { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-badge">Mica Internal Tool</span>
+  <span class="hero-icon">💬</span>
+  <h1>Mica CRM Setup Guide</h1>
+  <p>Everything you need to download, install, and start managing WhatsApp leads — in minutes.</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <nav class="tabs">
+    <button class="tab-btn active" onclick="showTab('kam', this)">
+      👤 For KAMs
+    </button>
+    <button class="tab-btn" onclick="showTab('admin', this)">
+      🛡️ For Admin
+    </button>
+  </nav>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- ══════════════════════ KAM TAB ══════════════════════ -->
+  <div id="tab-kam" class="tab-panel active">
+
+    <div class="section-header">
+      <div class="section-icon purple">👤</div>
+      <div>
+        <h2>KAM Setup Guide</h2>
+        <p>Get Mica CRM installed and your WhatsApp connected in under 5 minutes.</p>
+      </div>
+    </div>
+
+    <!-- Download -->
+    <div class="download-area">
+      <h3>⬇️ Download Mica CRM</h3>
+      <p>Mac (Apple Silicon &amp; Intel) · Latest version</p>
+      <a href="./Mica CRM.dmg" class="btn-download">
+        <span>🍎</span> Download for Mac (.dmg)
+      </a>
+      <a href="./Mica CRM Setup.exe" class="btn-secondary">
+        <span>🪟</span> Windows (.exe)
+      </a>
+      <p style="margin-top:14px;font-size:12px;opacity:.6">Built and distributed by the Mica tech team · @mica.rent accounts only</p>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Install the app</h3>
+          <p><strong>Mac:</strong> Open the downloaded <code>.dmg</code> file. Drag the <strong>Mica CRM</strong> icon into your Applications folder. Eject the disk image.</p>
+          <p><strong>Windows:</strong> Run the <code>.exe</code> installer and follow the prompts. A desktop shortcut will be created automatically.</p>
+          <div class="callout warn">
+            <span class="callout-icon">⚠️</span>
+            <div><strong>Mac Gatekeeper notice:</strong> On first launch, macOS may say "cannot be opened because it is from an unidentified developer." Right-click the app icon → <strong>Open</strong> → click <strong>Open</strong> again to allow it. You only need to do this once.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Make sure Google Chrome is installed</h3>
+          <p>Mica CRM uses <strong>your existing Chrome</strong> to power the WhatsApp connection — no extra downloads needed. If you don't have Chrome, <a href="https://www.google.com/chrome" target="_blank" style="color:var(--purple);">download it here</a>.</p>
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div>Chrome must be at its default location (<code>/Applications/Google Chrome.app</code> on Mac). If you moved it, put it back.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Sign in with your Mica Google account</h3>
+          <p>Launch <strong>Mica CRM</strong> from your Applications folder. The login screen will appear automatically.</p>
+          <p>Click <strong>"Sign in with Google"</strong> and choose your <code>@mica.rent</code> Google account. Non-Mica accounts are blocked by default.</p>
+          <div class="callout info">
+            <span class="callout-icon">✅</span>
+            <div>Your login stays active — you won't need to sign in again unless you log out manually.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Connect your WhatsApp</h3>
+          <p>After login, you'll land on the <strong>board screen</strong>. Look for the <strong>"Connect WhatsApp"</strong> button in the top-right corner and click it.</p>
+          <p>A QR code will appear. Open WhatsApp on your phone and scan it:</p>
+
+          <div class="qr-demo">
+            <div class="qr-box">
+              <!-- simplified QR-like visual -->
+              <div class="qr-cell b"></div><div class="qr-cell b"></div><div class="qr-cell b"></div><div class="qr-cell b"></div><div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell b"></div>
+              <div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell w"></div><div class="qr-cell w"></div><div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell b"></div>
+              <div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell b"></div>
+              <div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell b"></div><div class="qr-cell b"></div><div class="qr-cell b"></div><div class="qr-cell b"></div><div class="qr-cell b"></div>
+              <div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell w"></div><div class="qr-cell w"></div><div class="qr-cell w"></div><div class="qr-cell w"></div><div class="qr-cell b"></div>
+              <div class="qr-cell w"></div><div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell b"></div><div class="qr-cell w"></div>
+              <div class="qr-cell b"></div><div class="qr-cell b"></div><div class="qr-cell b"></div><div class="qr-cell w"></div><div class="qr-cell b"></div><div class="qr-cell b"></div><div class="qr-cell b"></div>
+            </div>
+            <p><strong>iPhone:</strong> WhatsApp → Settings → Linked Devices → Link a device → scan<br><strong>Android:</strong> WhatsApp → ⋮ menu → Linked Devices → Link a device → scan</p>
+          </div>
+
+          <div class="callout tip">
+            <span class="callout-icon">🔄</span>
+            <div>The QR code expires after ~20 seconds — refresh it by clicking the code if it fades out. Your session is saved after the first scan so you won't need to re-scan on relaunch.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>Understand the Kanban board</h3>
+          <p>Every WhatsApp contact you message (or who messages you) appears as a card on the board. Drag cards between columns to track where each lead is in your process:</p>
+
+          <div class="kanban-diagram">
+            <div class="kstage">
+              <div class="kstage-label">New</div>
+              <div class="kcard"><span class="kdot" style="background:#6b7280"></span>Carlos M.</div>
+              <div class="kcard"><span class="kdot" style="background:#6b7280"></span>Lucía P.</div>
+            </div>
+            <div class="kstage">
+              <div class="kstage-label">Contacted</div>
+              <div class="kcard"><span class="kdot" style="background:#3b82f6"></span>Beatriz R.</div>
+            </div>
+            <div class="kstage">
+              <div class="kstage-label">Open Item</div>
+              <div class="kcard"><span class="kdot" style="background:#f59e0b"></span>Diego F.</div>
+              <div class="kcard"><span class="kdot" style="background:#f59e0b"></span>Ana V.</div>
+            </div>
+            <div class="kstage">
+              <div class="kstage-label">Circling Back</div>
+              <div class="kcard"><span class="kdot" style="background:#8b5cf6"></span>Marco L.</div>
+            </div>
+            <div class="kstage">
+              <div class="kstage-label">All Resolved</div>
+              <div class="kcard"><span class="kdot" style="background:#10b981"></span>Sofía G.</div>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <span class="callout-icon">✋</span>
+            <div>Drag and drop cards directly between columns, or click a card to open the conversation and move it from there.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h3>Chat and manage leads</h3>
+          <p>Click any contact card to open the conversation panel on the right. You can:</p>
+          <ul style="margin:8px 0 0 16px;font-size:14px;color:var(--gray-500);display:flex;flex-direction:column;gap:5px;">
+            <li>📨 Send and receive WhatsApp messages in real time</li>
+            <li>📝 Add private notes visible only inside the CRM</li>
+            <li>🏷️ Move the contact to a different pipeline stage</li>
+            <li>📋 Use message templates to reply faster</li>
+            <li>🔴 Unread badge — goes away when you open the chat</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <h3>Tips &amp; things to know</h3>
+          <ul style="margin:0 0 0 16px;font-size:14px;color:var(--gray-500);display:flex;flex-direction:column;gap:7px;">
+            <li>🔗 You can keep using WhatsApp on your phone while the CRM is open — it runs as a <em>linked device</em>.</li>
+            <li>⚡ Messages arrive instantly via real-time sync — no need to refresh.</li>
+            <li>🔒 Your WhatsApp session is stored on <em>your machine only</em>. Reinstalling the app erases it (you'll need to scan again).</li>
+            <li>🛑 If the green dot turns red, click "Reconnect" in the top bar — your session may have expired.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /steps -->
+  </div><!-- /tab-kam -->
+
+
+  <!-- ══════════════════════ ADMIN TAB ══════════════════════ -->
+  <div id="tab-admin" class="tab-panel">
+
+    <div class="section-header">
+      <div class="section-icon green">🛡️</div>
+      <div>
+        <h2>Admin Setup Guide</h2>
+        <p>Full visibility over all KAMs, conversations, and pipeline — from one account.</p>
+      </div>
+    </div>
+
+    <!-- Admin intro callout -->
+    <div class="callout info" style="margin-bottom:32px;padding:18px 20px;font-size:14px;">
+      <span class="callout-icon" style="font-size:22px;">👑</span>
+      <div>
+        <strong>Admin account: julian@mica.rent</strong><br>
+        The admin role is automatically granted on sign-in. You get a purple <strong>Admin</strong> button in the top bar that no one else sees. No extra setup needed.
+      </div>
+    </div>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num green">1</div>
+        <div class="step-body">
+          <h3>Install exactly like a KAM</h3>
+          <p>Download and install Mica CRM using the same steps as a regular KAM (see the KAM tab). The app is identical — your special permissions activate automatically when you log in with <code>julian@mica.rent</code>.</p>
+
+          <div class="download-area" style="margin-top:16px;padding:22px;">
+            <h3 style="font-size:17px;">⬇️ Download Mica CRM</h3>
+            <p style="margin-bottom:14px;">Same app, admin powers unlocked on login</p>
+            <a href="./Mica CRM.dmg" class="btn-download" style="font-size:14px;padding:10px 22px;">
+              <span>🍎</span> Download for Mac (.dmg)
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num green">2</div>
+        <div class="step-body">
+          <h3>Sign in with julian@mica.rent</h3>
+          <p>Launch the app and click <strong>"Sign in with Google"</strong>. Use your <code>julian@mica.rent</code> account. Upon login you'll see a purple <strong>Admin</strong> button appear in the top navigation bar.</p>
+          <div class="callout tip">
+            <span class="callout-icon">🔐</span>
+            <div>If you ever need to grant admin access to another person, you can promote them from <strong>Admin Dashboard → Users → Change Role</strong>.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num green">3</div>
+        <div class="step-body">
+          <h3>Open the Admin Dashboard</h3>
+          <p>Click the purple <strong>Admin</strong> button in the top-right corner to enter the admin view. You'll see an overview of all KAMs and their live stats:</p>
+
+          <div class="feature-grid" style="margin-top:14px;">
+            <div class="feature-card">
+              <span class="fc-icon">👥</span>
+              <h4>All KAMs</h4>
+              <p>See who's online, their WhatsApp connection status, and how many contacts they manage.</p>
+            </div>
+            <div class="feature-card">
+              <span class="fc-icon">🔴</span>
+              <h4>Unread counts</h4>
+              <p>Instantly spot which KAMs have unanswered conversations piling up.</p>
+            </div>
+            <div class="feature-card">
+              <span class="fc-icon">📊</span>
+              <h4>Aggregate stats</h4>
+              <p>Total contacts, messages sent today, and WhatsApp connections across the whole team.</p>
+            </div>
+            <div class="feature-card">
+              <span class="fc-icon">🔍</span>
+              <h4>Global search</h4>
+              <p>Search by contact name or phone number across every KAM's pipeline at once.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num green">4</div>
+        <div class="step-body">
+          <h3>Read any conversation</h3>
+          <p>Click on any KAM card → then any contact → and the full conversation history opens in <strong>read-only mode</strong>. You can see everything but won't accidentally send a message on a KAM's behalf.</p>
+          <div class="callout warn">
+            <span class="callout-icon">👀</span>
+            <div><strong>Read-only:</strong> The admin view is observation only. To send a message as a KAM you'd need to log in as that KAM. This protects against accidental interference.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num green">5</div>
+        <div class="step-body">
+          <h3>Manage user roles</h3>
+          <p>Need to promote a KAM to admin, or revoke access? In the Admin Dashboard go to a user's card and use <strong>Change Role</strong>. Roles available:</p>
+          <ul style="margin:10px 0 0 16px;font-size:14px;color:var(--gray-500);display:flex;flex-direction:column;gap:5px;">
+            <li><strong>kam</strong> — default role, can only see their own pipeline</li>
+            <li><strong>admin</strong> — full visibility over all KAMs, user management</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num green">6</div>
+        <div class="step-body">
+          <h3>Your own WhatsApp (optional)</h3>
+          <p>You can optionally connect your own WhatsApp number exactly like a KAM — it's not required for admin duties. Connect it from <strong>the regular board view</strong> (click <strong>Back</strong> from the admin dashboard).</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-num green">7</div>
+        <div class="step-body">
+          <h3>Initial setup checklist (first time only)</h3>
+          <p>Before distributing the app to KAMs, complete these one-time steps:</p>
+          <ul style="margin:12px 0 0 16px;font-size:14px;color:var(--gray-500);display:flex;flex-direction:column;gap:10px;">
+            <li>
+              <strong>1. Create a Google OAuth Client ID</strong><br>
+              Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank" style="color:var(--purple);">console.cloud.google.com → APIs &amp; Services → Credentials</a>. Create an OAuth 2.0 Client ID for a <em>Web application</em>. Add <code>http://localhost:3001</code> as an authorized redirect URI. Copy the Client ID.
+            </li>
+            <li>
+              <strong>2. Add the Client ID to the app config</strong><br>
+              Open a terminal in the project folder and run:
+              <pre style="background:var(--gray-100);border:1px solid var(--gray-200);border-radius:8px;padding:12px;font-size:12px;margin-top:8px;overflow-x:auto;font-family:'SF Mono','Fira Code',monospace;color:var(--gray-700);">echo 'GOOGLE_CLIENT_ID=your_client_id_here' &gt; backend/.env
+echo 'VITE_GOOGLE_CLIENT_ID=your_client_id_here' &gt; frontend/.env</pre>
+              Replace <code>your_client_id_here</code> with the real value.
+            </li>
+            <li>
+              <strong>3. Rebuild and repackage</strong><br>
+              Run <code>npm run package:mac</code> from the project root. The new <code>.dmg</code> in the <code>release/</code> folder will have the Client ID baked in. Distribute this file to KAMs.
+            </li>
+            <li>
+              <strong>4. Tell KAMs to download &amp; scan once</strong><br>
+              Share this guide page with each KAM. Their WhatsApp session persists after the first QR scan.
+            </li>
+          </ul>
+          <div class="callout warn" style="margin-top:14px;">
+            <span class="callout-icon">🔑</span>
+            <div><strong>Keep the .env files private</strong> — never commit them to git. They contain your Google Client ID which should not be shared publicly.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num green">8</div>
+        <div class="step-body">
+          <h3>Where is the data stored?</h3>
+          <p>Each KAM's data lives <strong>on their own machine</strong>:</p>
+          <ul style="margin:8px 0 0 16px;font-size:14px;color:var(--gray-500);display:flex;flex-direction:column;gap:5px;">
+            <li><strong>Mac:</strong> <code>~/Library/Application Support/Mica CRM/data/</code></li>
+            <li><strong>Windows:</strong> <code>%APPDATA%\Mica CRM\data\</code></li>
+          </ul>
+          <p style="margin-top:8px;">The SQLite database (<code>mica-crm.db</code>) and WhatsApp sessions (<code>wa_sessions/</code>) are in that folder. As admin you can read any KAM's data <em>when they have the app open</em> — your admin dashboard connects to the backend running on their machine.</p>
+          <div class="callout tip">
+            <span class="callout-icon">☁️</span>
+            <div>In the future, a shared cloud database could give you persistent cross-machine access. For now, each install is self-contained.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /steps -->
+  </div><!-- /tab-admin -->
+
+</div><!-- /content -->
+
+<footer>
+  <strong>Mica CRM</strong> · Internal tool · Built for <strong>@mica.rent</strong> teams<br>
+  <span style="font-size:12px;opacity:.6;margin-top:4px;display:block;">Questions? Contact the tech team</span>
+</footer>
+
+<script>
+  function showTab(name, btn) {
+    document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
