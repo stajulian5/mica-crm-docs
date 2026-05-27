@@ -8,24 +8,26 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --purple:      #7c3aed;
-      --purple-dark: #5b21b6;
-      --purple-light:#ede9fe;
-      --purple-xlight:#f5f3ff;
-      --green:       #059669;
-      --green-light: #d1fae5;
-      --amber:       #d97706;
-      --amber-light: #fef3c7;
-      --gray-50:     #f9fafb;
-      --gray-100:    #f3f4f6;
-      --gray-200:    #e5e7eb;
-      --gray-400:    #9ca3af;
-      --gray-500:    #6b7280;
-      --gray-700:    #374151;
-      --gray-900:    #111827;
-      --radius:      12px;
-      --shadow:      0 4px 24px rgba(0,0,0,.08);
-      --shadow-lg:   0 8px 40px rgba(0,0,0,.13);
+      --primary:      #16a34a;
+      --primary-dark: #15803d;
+      --primary-xdark:#14532d;
+      --primary-light:#dcfce7;
+      --primary-xlight:#f0fdf4;
+      --primary-border:#bbf7d0;
+      --green:        #16a34a;
+      --green-light:  #dcfce7;
+      --amber:        #d97706;
+      --amber-light:  #fef3c7;
+      --gray-50:      #f9fafb;
+      --gray-100:     #f3f4f6;
+      --gray-200:     #e5e7eb;
+      --gray-400:     #9ca3af;
+      --gray-500:     #6b7280;
+      --gray-700:     #374151;
+      --gray-900:     #111827;
+      --radius:       12px;
+      --shadow:       0 4px 24px rgba(0,0,0,.08);
+      --shadow-lg:    0 8px 40px rgba(0,0,0,.13);
     }
 
     body {
@@ -37,7 +39,7 @@
 
     /* ── HERO ── */
     .hero {
-      background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #a78bfa 100%);
+      background: linear-gradient(135deg, #14532d 0%, #16a34a 55%, #22c55e 100%);
       color: white;
       text-align: center;
       padding: 72px 24px 80px;
@@ -95,10 +97,10 @@
       align-items: center;
       gap: 8px;
     }
-    .tab-btn:hover { color: var(--purple); }
+    .tab-btn:hover { color: var(--primary); }
     .tab-btn.active {
-      color: var(--purple);
-      border-bottom-color: var(--purple);
+      color: var(--primary);
+      border-bottom-color: var(--primary);
     }
 
     /* ── CONTENT ── */
@@ -120,7 +122,7 @@
       font-size: 24px;
       flex-shrink: 0;
     }
-    .section-icon.purple { background: var(--purple-light); }
+    .section-icon.purple { background: var(--primary-light); }
     .section-icon.green  { background: var(--green-light); }
     .section-header h2 { font-size: 26px; font-weight: 800; color: var(--gray-900); }
     .section-header p  { font-size: 15px; color: var(--gray-500); margin-top: 2px; }
@@ -141,7 +143,7 @@
     .step-num {
       width: 36px; height: 36px;
       border-radius: 50%;
-      background: var(--purple);
+      background: var(--primary);
       color: white;
       font-weight: 800;
       font-size: 15px;
@@ -149,7 +151,7 @@
       flex-shrink: 0;
       margin-top: 2px;
     }
-    .step-num.green { background: var(--green); }
+    .step-num.green { background: var(--primary-dark); }
     .step-body h3 { font-size: 16px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
     .step-body p  { font-size: 14px; color: var(--gray-500); }
     .step-body p + p { margin-top: 6px; }
@@ -162,7 +164,7 @@
       padding: 1px 6px;
       font-size: 12.5px;
       font-family: 'SF Mono', 'Fira Code', monospace;
-      color: var(--purple-dark);
+      color: var(--primary-dark);
     }
 
     /* ── CALLOUT BOXES ── */
@@ -176,14 +178,14 @@
       font-size: 13.5px;
     }
     .callout-icon { font-size: 18px; flex-shrink: 0; line-height: 1.5; }
-    .callout.tip   { background: var(--purple-xlight); border: 1px solid #ddd6fe; }
+    .callout.tip   { background: var(--primary-xlight); border: 1px solid var(--primary-border); }
     .callout.warn  { background: var(--amber-light);   border: 1px solid #fde68a; }
     .callout.info  { background: var(--green-light);   border: 1px solid #a7f3d0; }
     .callout strong { color: var(--gray-900); }
 
     /* ── DOWNLOAD BUTTON ── */
     .download-area {
-      background: linear-gradient(135deg, #5b21b6, #7c3aed);
+      background: linear-gradient(135deg, #15803d, #16a34a);
       border-radius: 16px;
       padding: 32px;
       text-align: center;
@@ -197,7 +199,7 @@
       align-items: center;
       gap: 10px;
       background: white;
-      color: var(--purple-dark);
+      color: var(--primary-dark);
       font-weight: 700;
       font-size: 15px;
       padding: 12px 28px;
@@ -405,7 +407,7 @@
         <div class="step-num">2</div>
         <div class="step-body">
           <h3>Make sure Google Chrome is installed</h3>
-          <p>Mica CRM uses Chrome to power the WhatsApp connection. If you don't have it, <a href="https://www.google.com/chrome" target="_blank" style="color:var(--purple);">download it here</a> (it's free).</p>
+          <p>Mica CRM uses Chrome to power the WhatsApp connection. If you don't have it, <a href="https://www.google.com/chrome" target="_blank" style="color:var(--primary);">download it here</a> (it's free).</p>
           <div class="callout tip">
             <span class="callout-icon">💡</span>
             <div>Keep Chrome at its default location: <code>/Applications/Google Chrome.app</code>. If you moved it, put it back.</div>
@@ -540,7 +542,7 @@
       <span class="callout-icon" style="font-size:22px;">👑</span>
       <div>
         <strong>Admin account: julian@mica.rent</strong><br>
-        The admin role is automatically granted on sign-in. You get a purple <strong>Admin</strong> button in the top bar that no one else sees. No extra setup needed.
+        The admin role is automatically granted on sign-in. You get a green <strong>Admin</strong> button in the top bar that no one else sees. No extra setup needed.
       </div>
     </div>
 
@@ -566,7 +568,7 @@
         <div class="step-num green">2</div>
         <div class="step-body">
           <h3>Sign in with julian@mica.rent</h3>
-          <p>Launch the app and click <strong>"Sign in with Google"</strong>. Use your <code>julian@mica.rent</code> account. Upon login you'll see a purple <strong>Admin</strong> button appear in the top navigation bar.</p>
+          <p>Launch the app and click <strong>"Sign in with Google"</strong>. Use your <code>julian@mica.rent</code> account. Upon login you'll see a green <strong>Admin</strong> button appear in the top navigation bar.</p>
           <div class="callout tip">
             <span class="callout-icon">🔐</span>
             <div>If you ever need to grant admin access to another person, you can promote them from <strong>Admin Dashboard → Users → Change Role</strong>.</div>
@@ -578,7 +580,7 @@
         <div class="step-num green">3</div>
         <div class="step-body">
           <h3>Open the Admin Dashboard</h3>
-          <p>Click the purple <strong>Admin</strong> button in the top-right corner to enter the admin view. You'll see an overview of all KAMs and their live stats:</p>
+          <p>Click the green <strong>Admin</strong> button in the top-right corner to enter the admin view. You'll see an overview of all KAMs and their live stats:</p>
 
           <div class="feature-grid" style="margin-top:14px;">
             <div class="feature-card">
@@ -647,7 +649,7 @@
           <ul style="margin:12px 0 0 16px;font-size:14px;color:var(--gray-500);display:flex;flex-direction:column;gap:10px;">
             <li>
               <strong>1. Create a Google OAuth Client ID</strong><br>
-              Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank" style="color:var(--purple);">console.cloud.google.com → APIs &amp; Services → Credentials</a>. Create an <em>OAuth 2.0 Web Client ID</em>. Add <code>http://localhost:3001</code> as an authorized redirect URI. Copy the Client ID.
+              Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank" style="color:var(--primary);">console.cloud.google.com → APIs &amp; Services → Credentials</a>. Create an <em>OAuth 2.0 Web Client ID</em>. Add <code>http://localhost:3001</code> as an authorized redirect URI. Copy the Client ID.
             </li>
             <li>
               <strong>2. Add it to the project config files</strong><br>
